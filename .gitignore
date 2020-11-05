@@ -1,2 +1,5 @@
 /notes-api/node_modules
+/notes-api/.env
+
 /notes-app-client/node_modules
+/notes-app-client/.env
