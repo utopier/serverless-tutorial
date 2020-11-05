@@ -36,9 +36,11 @@
      - ES6, Typescript 지원, 패키지 최적화
    - API 작성 (with Serverless(Lambda, API Gateway))
      - create, get, list, update, delete
+       - Function -> serverless.yml -> Test -> Refactoring
+   - Serverless unit Test
    - API Gateway CORS 설정
-   - Test APIs
    - Deploy the APIs
+   - Cognito Identity Pool
 2. 배포 자동화
    - CDK App 빌드 (with SST)
      - DynamoDB, S3, Cognito User Pool, Cognito Identity Pool
