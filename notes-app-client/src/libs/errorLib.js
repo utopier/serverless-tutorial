@@ -1,6 +1,7 @@
 import * as Sentry from '@sentry/browser';
 
 const isLocal = process.env.NODE_ENV === 'development';
+//const isLocal = false;
 
 export function initSentry() {
   if (isLocal) {
