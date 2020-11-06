@@ -1,0 +1,10 @@
+{
+  "auth": {
+    "notesappclientafda2e2a": {
+      "service": "Cognito",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "customAuth": false
+    }
+  }
+}
