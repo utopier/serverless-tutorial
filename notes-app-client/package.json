@@ -5,12 +5,13 @@
   "main": "index.js",
   "scripts": {
     "start": "react-scripts start",
-    "build":"react-scripts build"
+    "build": "react-scripts build"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@sentry/browser": "^5.27.3",
     "aws-amplify": "^3.3.7",
     "react": "^17.0.1",
     "react-bootstrap": "^0.33.1",
