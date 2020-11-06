@@ -59,31 +59,31 @@
     "CreateLogGroup": {
       "Type": "AWS::Logs::LogGroup",
       "Properties": {
-        "LogGroupName": "/aws/lambda/notes-api-prod-create"
+        "LogGroupName": "/aws/lambda/notes-api-dev-create"
       }
     },
     "GetLogGroup": {
       "Type": "AWS::Logs::LogGroup",
       "Properties": {
-        "LogGroupName": "/aws/lambda/notes-api-prod-get"
+        "LogGroupName": "/aws/lambda/notes-api-dev-get"
       }
     },
     "ListLogGroup": {
       "Type": "AWS::Logs::LogGroup",
       "Properties": {
-        "LogGroupName": "/aws/lambda/notes-api-prod-list"
+        "LogGroupName": "/aws/lambda/notes-api-dev-list"
       }
     },
     "UpdateLogGroup": {
       "Type": "AWS::Logs::LogGroup",
       "Properties": {
-        "LogGroupName": "/aws/lambda/notes-api-prod-update"
+        "LogGroupName": "/aws/lambda/notes-api-dev-update"
       }
     },
     "DeleteLogGroup": {
       "Type": "AWS::Logs::LogGroup",
       "Properties": {
-        "LogGroupName": "/aws/lambda/notes-api-prod-delete"
+        "LogGroupName": "/aws/lambda/notes-api-dev-delete"
       }
     },
     "IamRoleLambdaExecution": {
@@ -112,7 +112,7 @@
                 "-",
                 [
                   "notes-api",
-                  "prod",
+                  "dev",
                   "lambda"
                 ]
               ]
@@ -128,7 +128,7 @@
                   ],
                   "Resource": [
                     {
-                      "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/notes-api-prod*:*"
+                      "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/notes-api-dev*:*"
                     }
                   ]
                 },
@@ -139,7 +139,7 @@
                   ],
                   "Resource": [
                     {
-                      "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/notes-api-prod*:*:*"
+                      "Fn::Sub": "arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/notes-api-dev*:*:*"
                     }
                   ]
                 },
@@ -154,7 +154,11 @@
                     "dynamodb:DeleteItem",
                     "dynamodb:DescribeTable"
                   ],
-                  "Resource": "arn:aws:dynamodb:ap-northeast-1:*:*"
+                  "Resource": [
+                    {
+                      "Fn::ImportValue": "dev-notes-infra-TableArn"
+                    }
+                  ]
                 }
               ]
             }
@@ -166,7 +170,7 @@
             "-",
             [
               "notes-api",
-              "prod",
+              "dev",
               {
                 "Ref": "AWS::Region"
               },
@@ -183,9 +187,9 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/notes-api/prod/1604618372182-2020-11-05T23:19:32.182Z/create.zip"
+          "S3Key": "serverless/notes-api/dev/1604639402610-2020-11-06T05:10:02.610Z/create.zip"
         },
-        "FunctionName": "notes-api-prod-create",
+        "FunctionName": "notes-api-dev-create",
         "Handler": "create.main",
         "MemorySize": 1024,
         "Role": {
@@ -206,7 +210,7 @@
         "CreateLogGroup"
       ]
     },
-    "CreateLambdaVersionmZAZK0SGA5TNqOkdddkKTzZYy5sb0zcyCJuBO7Ts": {
+    "CreateLambdaVersionJT1nuZvxnDwBjCpmSgiNGsUbcgNT8OmEiAl0FonI": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
@@ -223,9 +227,9 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/notes-api/prod/1604618372182-2020-11-05T23:19:32.182Z/get.zip"
+          "S3Key": "serverless/notes-api/dev/1604639402610-2020-11-06T05:10:02.610Z/get.zip"
         },
-        "FunctionName": "notes-api-prod-get",
+        "FunctionName": "notes-api-dev-get",
         "Handler": "get.main",
         "MemorySize": 1024,
         "Role": {
@@ -246,7 +250,7 @@
         "GetLogGroup"
       ]
     },
-    "GetLambdaVersion4RvsIn4IjqQAd3rahcSWbTUWePTq7KLGMNGx2o6wNR8": {
+    "GetLambdaVersionFz9ptlhk62RfzdeksR2VNODfob85wmOXFDO52RTNX0Q": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
@@ -263,9 +267,9 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/notes-api/prod/1604618372182-2020-11-05T23:19:32.182Z/list.zip"
+          "S3Key": "serverless/notes-api/dev/1604639402610-2020-11-06T05:10:02.610Z/list.zip"
         },
-        "FunctionName": "notes-api-prod-list",
+        "FunctionName": "notes-api-dev-list",
         "Handler": "list.main",
         "MemorySize": 1024,
         "Role": {
@@ -286,7 +290,7 @@
         "ListLogGroup"
       ]
     },
-    "ListLambdaVersionyCsrmmufFqDPfCUDV3MIofNY40aG1l2gpCchHY": {
+    "ListLambdaVersion1vHui80PoguRslT9rPV8bRxNRReH4VoPXBXjPRE": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
@@ -303,9 +307,9 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/notes-api/prod/1604618372182-2020-11-05T23:19:32.182Z/update.zip"
+          "S3Key": "serverless/notes-api/dev/1604639402610-2020-11-06T05:10:02.610Z/update.zip"
         },
-        "FunctionName": "notes-api-prod-update",
+        "FunctionName": "notes-api-dev-update",
         "Handler": "update.main",
         "MemorySize": 1024,
         "Role": {
@@ -326,7 +330,7 @@
         "UpdateLogGroup"
       ]
     },
-    "UpdateLambdaVersionsoqcgqCRQwNZKtCmZVCMGDrwspEcQjoS25NHQgwNuA": {
+    "UpdateLambdaVersionJCT0JMnkakNm6pjrihj6sEpZdCHqxXKuNokEPSPSkQ": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
@@ -343,9 +347,9 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/notes-api/prod/1604618372182-2020-11-05T23:19:32.182Z/delete.zip"
+          "S3Key": "serverless/notes-api/dev/1604639402610-2020-11-06T05:10:02.610Z/delete.zip"
         },
-        "FunctionName": "notes-api-prod-delete",
+        "FunctionName": "notes-api-dev-delete",
         "Handler": "delete.main",
         "MemorySize": 1024,
         "Role": {
@@ -366,7 +370,7 @@
         "DeleteLogGroup"
       ]
     },
-    "DeleteLambdaVersionl43W2hYQz4Qmd5iHRjWsoD5JIrTBJFJTFxiDefY": {
+    "DeleteLambdaVersion2HVUwqJ2u2R0Dou8PWeteJ8sIc84OGNr2ZLtWrBUsY": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
@@ -379,7 +383,7 @@
     "ApiGatewayRestApi": {
       "Type": "AWS::ApiGateway::RestApi",
       "Properties": {
-        "Name": "prod-notes-api",
+        "Name": "dev-notes-api",
         "EndpointConfiguration": {
           "Types": [
             "EDGE"
@@ -720,13 +724,13 @@
         "MethodResponses": []
       }
     },
-    "ApiGatewayDeployment1604618356293": {
+    "ApiGatewayDeployment1604639383626": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
           "Ref": "ApiGatewayRestApi"
         },
-        "StageName": "prod"
+        "StageName": "dev"
       },
       "DependsOn": [
         "ApiGatewayMethodNotesOptions",
@@ -948,6 +952,31 @@
           "Ref": "ApiGatewayRestApi"
         }
       }
+    },
+    "CognitoAuthorizedApiPolicy": {
+      "Type": "AWS::IAM::Policy",
+      "Properties": {
+        "PolicyName": "dev-CognitoNotesAuthorizedApiPolicy",
+        "PolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Action": [
+                "execute-api:Invoke"
+              ],
+              "Resource": {
+                "Fn::Sub": "arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${ApiGatewayRestApi}/*"
+              }
+            }
+          ]
+        },
+        "Roles": [
+          {
+            "Fn::ImportValue": "dev-notes-infra-CognitoAuthRole"
+          }
+        ]
+      }
     }
   },
   "Outputs": {
@@ -959,31 +988,31 @@
     "CreateLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "CreateLambdaVersionmZAZK0SGA5TNqOkdddkKTzZYy5sb0zcyCJuBO7Ts"
+        "Ref": "CreateLambdaVersionJT1nuZvxnDwBjCpmSgiNGsUbcgNT8OmEiAl0FonI"
       }
     },
     "GetLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "GetLambdaVersion4RvsIn4IjqQAd3rahcSWbTUWePTq7KLGMNGx2o6wNR8"
+        "Ref": "GetLambdaVersionFz9ptlhk62RfzdeksR2VNODfob85wmOXFDO52RTNX0Q"
       }
     },
     "ListLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "ListLambdaVersionyCsrmmufFqDPfCUDV3MIofNY40aG1l2gpCchHY"
+        "Ref": "ListLambdaVersion1vHui80PoguRslT9rPV8bRxNRReH4VoPXBXjPRE"
       }
     },
     "UpdateLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "UpdateLambdaVersionsoqcgqCRQwNZKtCmZVCMGDrwspEcQjoS25NHQgwNuA"
+        "Ref": "UpdateLambdaVersionJCT0JMnkakNm6pjrihj6sEpZdCHqxXKuNokEPSPSkQ"
       }
     },
     "DeleteLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "DeleteLambdaVersionl43W2hYQz4Qmd5iHRjWsoD5JIrTBJFJTFxiDefY"
+        "Ref": "DeleteLambdaVersion2HVUwqJ2u2R0Dou8PWeteJ8sIc84OGNr2ZLtWrBUsY"
       }
     },
     "ServiceEndpoint": {
@@ -1004,7 +1033,7 @@
             {
               "Ref": "AWS::URLSuffix"
             },
-            "/prod"
+            "/dev"
           ]
         ]
       }

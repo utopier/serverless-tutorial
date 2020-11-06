@@ -1,0 +1,6 @@
+{
+  "name": "notes-infra",
+  "type": "@serverless-stack/resources",
+  "stage": "dev",
+  "region": "ap-northeast-2"
+}
