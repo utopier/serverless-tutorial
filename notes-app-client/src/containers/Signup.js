@@ -11,6 +11,7 @@ import { useAppContext } from '../libs/contextLib';
 import { useFormFields } from '../libs/hooksLib';
 import { onError } from '../libs/errorLib';
 import './Signup.css';
+import { Auth } from 'aws-amplify';
 
 export default function Signup() {
   const [fields, handleFieldChange] = useFormFields({
