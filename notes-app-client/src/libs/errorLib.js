@@ -27,6 +27,7 @@ export function logError(error, errorInfo = null) {
 
 export function onError(error) {
   let errorInfo = {};
+  error = error + '';
   let message = error.toString();
 
   // Auth errors
