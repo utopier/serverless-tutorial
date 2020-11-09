@@ -4,7 +4,6 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import './index.css';
 
 import Amplify, { Auth } from 'aws-amplify';
-import awsconfig from './aws-exports';
 import config from './config';
 import { initSentry } from './libs/errorLib';
 
@@ -32,7 +31,6 @@ Amplify.configure({
     ],
   },
 });
-Auth.configure(awsconfig);
 
 ReactDOM.render(
   <Router>
