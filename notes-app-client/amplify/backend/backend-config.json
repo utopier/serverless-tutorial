@@ -1,0 +1,10 @@
+{
+  "auth": {
+    "notesappclientabfb4022": {
+      "service": "Cognito",
+      "providerPlugin": "awscloudformation",
+      "dependsOn": [],
+      "customAuth": false
+    }
+  }
+}
