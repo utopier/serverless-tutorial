@@ -91,6 +91,10 @@
      ```markup
      https://API_ID.execure-api.REGION.amazonaws.com/STAGE/PATH
      ```
+     - API_ID : API Gateway 프로젝트 별 고유 식별자
+     - REGION : API Gateway 프로젝트가 배포된 Region
+     - STAGE : serverless.yml에 정의
+     - PATH : API Enpoint 경로 (serverless.yml에 정의됨)
 2. IAM Policy 누락
    - API Endpoint가 aws_iam을 권한부여자로 사용하고 Cognito 자격 증명 풀에 할당된 IAM 역할에 API Gateway 리소스에 대한 execute-api:Invoke 권한이 부여되지 않은 경우 발생
    - 요청이 API Gateway에 도달하지 않았으므로 오류가 CloudWatch 로그에 기록되지 않기 때문에 디버깅하기 까다로움
@@ -180,6 +184,8 @@
      https://abc12345.execute-api.us-east-1.amazonaws.com/prod
      https://abc12345.execute-api.us-east-1.amazonaws.com/dev
      ```
+     - 단점
+     - 각 단계에 대한 IAM 정책을 조정할 수 있는 유연성이 없음.
    - **각 단계에 대한 별도의 API**
    ```markup
    https://abc12345.execute-api.us-east-1.amazonaws.com/prod
@@ -737,13 +743,20 @@
 - 함수가 최근에 호출된 경우 컨테이너가 유지됨. 이 경우 함수가 훨씬 더 빨리 호출되고 이 지연을 웜 시작 시간이라고 함.
 
 1. Optimizing Lambda Packages
+   - 기본적으로 serverless frameowrk는 서비스당 하나의 패키지를 생성하고 해당 서비스의 모든 Lambda 함수에 사용함. 각 Lambda 함수는 다른 모든 함수에서도 사용되는 코드를 로드함.
    ```yml
    # Create an individual package for our functions
    package:
      individually: true
    ```
+
+- 개별 패키징이 더 오래 걸리지만 성능적으로 더 좋음
+- 개별 패키징을 할 경우 Node.js의 경우 Serverless Framework는 node_modules/ 패키지에 디렉토리를 추가함. 이로 인해 Lambda 함수 패키지 크기가 천문학적으로 커질 수 있음. 이 문제를 해결하려면 Webpack ThreeShaking 알고리즘을 적용하는 serverless-webpack 플러그인 도입을 고려.
+
 2. ES6 and TypeScript
-3. Only One Dependency
+
+- serverless-bundle을 사용해 Webpack,Babel,ESLint 구성 없이 ES6, Typescript를 지원함
+
 4. Getting Started
    - npm i -D serverless-bundle
    - serverless.yml
@@ -774,8 +787,82 @@
 ### 1. React Hooks
 
 1. React 클래스 컴포넌트 라이프 사이클
+
+- Mounting
+  - constructor -> render -> React Updates DOM and refs -> componentDidMount
+- Updating (New Props, setState, forceUpdates)
+  - render -> React Updates DOM and refs -> componentDidUpdate
+- Unmounting
+  - componentWillUnmount
+
+```javascript
+class ClassComponent extends React.Component {
+  constructor(props){
+    super(props)
+
+    componentDidMount(){}
+
+    componentDidUpdate(){}
+
+    componentWillUnmount(){}
+
+    render(){
+      return(
+        <div>
+          <h1>Class Component Life Cycle</h1>
+        </div>
+      )
+    }
+  }
+}
+```
+
 2. React 함수 컴포넌트 라이프 사이클
+
+```javascript
+function FunctionalComponent(props) {
+  return (
+    <div>
+      <h1>Functional Component</h1>
+    </div>
+  );
+}
+```
+
+- React는 단순히 함수를 실행함.
+- 함수형 컴포넌트에서는 state를 사용할 수 없고 위의 React LifeCycle을 제어할 수 없음. 이들을 제어하기 위해 Hooks를 사용함.
+
 3. React Hook 추가
+
+```javascript
+function FunctionalComponent(props) {
+  const [num, setNum] = useState(1);
+
+  useEffect(() => {
+    console.log('mount and update');
+    return () => {
+      console.log('cleanup');
+    };
+  });
+
+  // 초기 마운트 및 최종 마운트 해제시 호출
+  useEffect(() => {
+    //...
+  }, []);
+
+  // [] 인수가 변경될시 호출
+  useEffect(() => {
+    //...
+  }, [num]);
+
+  return (
+    <div>
+      <h1>Functional Component</h1>
+    </div>
+  );
+}
+```
+
 4. React Hook 모델
 5. 클래스, 함수 컴포넌트의 차이점
 6. 요약
@@ -785,16 +872,50 @@
 ### 2. Code Splitting in CRA
 
 1. Code Splitting
+
+- React SPA 앱의 초기로드 시간 단축을 위해 CodeSplitting을 사용함.
+- 동적 import() 구문을 사용해서 적용함.
+- CodeSplitting의 가장 쉬운 접근법은 Routing 부분에서 사용.
+
 2. Code Splitting 및 React Router V4
 3. 비동기 구성요소 만들기
 4. 비동기 구성요소 사용
 5. 다음 단계
+
+- react-loadable로 CodeSplitting 구현
+
+```javascript
+const AsyncHome = Loadalbe({
+  loader: () => import('./containers/Home'),
+  loading: LoadingComponent,
+});
+```
+
+```javascript
+const LoadingComponent = ({ isLoading, error }) => {
+  if (isLoading) {
+    return <div>...Loading</div>;
+  } else if (error) {
+    return <div>Error : {error}</div>;
+  } else {
+    return null;
+  }
+};
+```
 
 ---
 
 ### 3. Environments in CRA
 
 1. 사용자 지정 환경 변수
+
+- CRA 빌드 프로세스 시작시 설정
+  ```markup
+  REACT_APP_TEST_VAR=123 npm start
+  ```
+- <code>process.env.REACT_APP_TEST_VAR</code>로 접근
+- CRA 환경변수는 REACT*APP* 접두사를 가져야함.
+
 2. 환경 구성
 3. 환경 변수 사용
 
@@ -863,7 +984,7 @@
 
 ---
 
-### 9. Setup SSL
+### 9. Setup SSL (For HTTPS)
 
 - 도메인에서 SSL or HTTPS를 사용할 수 있도록 인증서 요청. 이를 위해 AWS Certificate Manager 서비스를 사용.
 - AWS Console -> Certificate Manager -> Resion 확인 -> Getting Started -> Domain Name 입력 후 Add another name to this certificate -> Review and Request -> DNS validation -> 도메인들 확장 -> Create record in Route 53 -> Create
@@ -917,36 +1038,271 @@
 
 ---
 
-### 13. Manage User Accounts in AWS Amplify
+### 13. www 도메인 리디렉션 설정
+
+1. S3 리디렉션 버킷 생성
+2. CloudFront 배포 생성
+3. WWW 도메인을 CloudFront 배포로 지정
+4. IPv6 지원 추가
 
 ---
 
-### 14. Handle Forgot and Reset Password
+### 14. 업데이트 배포
+
+1. 앱 구축
+2. S3에 업로드
+3. CloudFront 캐시 무효화
+4. 배포 명령 추가
+
+---
+
+### 15. Manage User Accounts in AWS Amplify
+
+---
+
+### 16. Handle Forgot and Reset Password
 
 1. 비밀번호 재설정 양식 추가
+
+- src/containers/ResetPassword.js
+
+  ```javascript
+
+  ```
+
+- src/containers/ResetPassword.css
+
+  ```css
+
+  ```
+
 2. 경로 추가
+
+- src/Routes.js
+
+```javascript
+import ResetPassword from './containers/ResetPassword';
+//...
+<UnauthenticatedRoute exact path="/login/reset">
+  <ResetPassword />
+</UnauthenticatedRoute>;
+```
+
 3. 로그인 페이지에서 링크
 
+- src/containers.Login.js
+  ```javascript
+  import { Link } from 'react-router-dom';
+  //...
+  <Link to="/login/reset">Forgot password?</Link>;
+  ```
+- src/containers/Login.css
+
+  ```css
+
+  ```
+
 ---
 
-### 15. Allow Users to Change Passwords
+### 17. Allow Users to Change Passwords
 
 1. 설정 페이지 추가
+
+- src/containers/Settings.js
+
+  ```javascript
+
+  ```
+
+- src/containers/Settings.css
+
 2. 비밀번호 변경 양식
+
+- src/containers/ChangePassword.j
+
+- src/Routes.js
 
 ---
 
-### 16. Allow Users to Change Thier Email
+### 18. Allow Users to Change Thier Email
 
 1. 이메일 양식 변경
+
+- src/containers/ChangeEmail.js
+
+- src/containers/ChangeEmail.css
+
+- src/Routes.js
+
 2. 미세한 세부 사항
 
 ---
 
-### 17. Facebook Login with Cognito using AWS Amplify
+### 19. Facebook Login with Cognito using AWS Amplify
 
 1. Facebook 앱 만들기
+
+- http://developers.facebook.com/ -> My Apps -> Create a New App -> Facebook Loign Set Up -> Web -> Site URL 입력 후 Save
+  - Settings -> App ID 보관
+
 2. Facebook을 인증 공급자로 추가
+
+- AWS Console -> Cognito -> Manage Identity Pools -> 앱에 사용중인 자격 증명 풀 선택 -> Edit identity pool -> Authentication providers -> Facebook -> Unlock 후 Facebook App ID 입력 -> Save Changes
+
 3. AWS Amplify로 Facebook 로그인 구성
+
+- Facebook JS SDK, AWS Amplify를 사용해 Facebook 로그인 구성
+- src/config.js
+  ```javascript
+  export default {
+    //...
+    social: {
+      FB: 'REACT_APP_FACEBOOK_APP_ID',
+    },
+  };
+  ```
+- src/App.js
+
+  - componentDidMount에서 Facebook JS SDK 로드
+
+  ```javascript
+  async componentDidMount() {
+  this.loadFacebookSDK();
+
+  try {
+      await Auth.currentAuthenticatedUser();
+      this.userHasAuthenticated(true);
+    } catch (e) {
+      if (e !== "not authenticated") {
+        alert(e);
+      }
+    }
+
+    this.setState({ isAuthenticating: false });
+  }
+
+  loadFacebookSDK() {
+    window.fbAsyncInit = function() {
+      window.FB.init({
+        appId            : config.social.FB,
+        autoLogAppEvents : true,
+        xfbml            : true,
+        version          : 'v3.1'
+      });
+    };
+
+    (function(d, s, id){
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) {return;}
+      js = d.createElement(s); js.id = id;
+      js.src = "https://connect.facebook.net/en_US/sdk.js";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+  }
+  ```
+
+- src/compoentns/FacebookButton.js
+
+  ```javascript
+  import React, { Component } from 'react';
+  import { Auth } from 'aws-amplify';
+  import LoaderButton from './LoaderButton';
+
+  function waitForInit() {
+    return new Promise((res, rej) => {
+      const hasFbLoaded = () => {
+        if (window.FB) {
+          res();
+        } else {
+          setTimeout(hasFbLoaded, 300);
+        }
+      };
+      hasFbLoaded();
+    });
+  }
+
+  export default class FacebookButton extends Component {
+    constructor(props) {
+      super(props);
+
+      this.state = {
+        isLoading: true,
+      };
+    }
+
+    async componentDidMount() {
+      await waitForInit();
+      this.setState({ isLoading: false });
+    }
+
+    statusChangeCallback = (response) => {
+      if (response.status === 'connected') {
+        this.handleResponse(response.authResponse);
+      } else {
+        this.handleError(response);
+      }
+    };
+
+    checkLoginState = () => {
+      window.FB.getLoginStatus(this.statusChangeCallback);
+    };
+
+    handleClick = () => {
+      window.FB.login(this.checkLoginState, { scope: 'public_profile,email' });
+    };
+
+    handleError(error) {
+      alert(error);
+    }
+
+    async handleResponse(data) {
+      const { email, accessToken: token, expiresIn } = data;
+      const expires_at = expiresIn * 1000 + new Date().getTime();
+      const user = { email };
+
+      this.setState({ isLoading: true });
+
+      try {
+        const response = await Auth.federatedSignIn(
+          'facebook',
+          { token, expires_at },
+          user
+        );
+        this.setState({ isLoading: false });
+        this.props.onLogin(response);
+      } catch (e) {
+        this.setState({ isLoading: false });
+        this.handleError(e);
+      }
+    }
+
+    render() {
+      return (
+        <LoaderButton
+          block
+          bsSize="large"
+          bsStyle="primary"
+          className="FacebookButton"
+          text="Login with Facebook"
+          onClick={this.handleClick}
+          disabled={this.state.isLoading}
+        />
+      );
+    }
+  }
+  ```
+
+- src/containers/Login.js, src/containers/Signup.js
+  ```javascript
+  //...
+  handleFbLogin = () => {
+    this.props.userHasAuthenticated(true);
+  };
+  //...
+  <FacebookButton
+    onLogin={this.handleFbLogin}
+  />
+  <hr />
+  ```
 
 ---

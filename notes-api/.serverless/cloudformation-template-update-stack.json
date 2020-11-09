@@ -155,9 +155,7 @@
                     "dynamodb:DescribeTable"
                   ],
                   "Resource": [
-                    {
-                      "Fn::ImportValue": "dev-notes-infra-TableArn"
-                    }
+                    "arn:aws:dynamodb:ap-northeast-2:565833635703:table/dev-notes-infra-dynamodb-TableCD117FA1-13UG7952A3HEC"
                   ]
                 }
               ]
@@ -187,7 +185,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/notes-api/dev/1604641960460-2020-11-06T05:52:40.460Z/create.zip"
+          "S3Key": "serverless/notes-api/dev/1604907465275-2020-11-09T07:37:45.275Z/create.zip"
         },
         "FunctionName": "notes-api-dev-create",
         "Handler": "create.main",
@@ -202,7 +200,7 @@
         "Timeout": 6,
         "Environment": {
           "Variables": {
-            "tableName": "notes"
+            "tableName": "dev-notes-infra-dynamodb-TableCD117FA1-13UG7952A3HEC"
           }
         }
       },
@@ -210,14 +208,14 @@
         "CreateLogGroup"
       ]
     },
-    "CreateLambdaVersionJT1nuZvxnDwBjCpmSgiNGsUbcgNT8OmEiAl0FonI": {
+    "CreateLambdaVersioniqeQkvxogWW9LpsPYONwJQhBlokxbfi7AvH1wvHS7i0": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "CreateLambdaFunction"
         },
-        "CodeSha256": "4WhLoxOneD0jI4E3winQs/oXqs0pcuAbldF2wNE8g14="
+        "CodeSha256": "V2QEPmJrzslwC+Nef7GoBJIZ0rZlCSkolRw3NLNN4/A="
       }
     },
     "GetLambdaFunction": {
@@ -227,7 +225,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/notes-api/dev/1604641960460-2020-11-06T05:52:40.460Z/get.zip"
+          "S3Key": "serverless/notes-api/dev/1604907465275-2020-11-09T07:37:45.275Z/get.zip"
         },
         "FunctionName": "notes-api-dev-get",
         "Handler": "get.main",
@@ -242,7 +240,7 @@
         "Timeout": 6,
         "Environment": {
           "Variables": {
-            "tableName": "notes"
+            "tableName": "dev-notes-infra-dynamodb-TableCD117FA1-13UG7952A3HEC"
           }
         }
       },
@@ -250,14 +248,14 @@
         "GetLogGroup"
       ]
     },
-    "GetLambdaVersionFz9ptlhk62RfzdeksR2VNODfob85wmOXFDO52RTNX0Q": {
+    "GetLambdaVersionyjxhUewOtzvrllmXjoL2KAqRhfZS8Jgs5ddAVQl68A": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "GetLambdaFunction"
         },
-        "CodeSha256": "neP33ksEKtmlyITd12GJG+TxD1dZ+cHa35ZOOr+RoQ8="
+        "CodeSha256": "selZJS35cS106hIZTORiw4MfdLUrAstRZruyUMFV+j8="
       }
     },
     "ListLambdaFunction": {
@@ -267,7 +265,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/notes-api/dev/1604641960460-2020-11-06T05:52:40.460Z/list.zip"
+          "S3Key": "serverless/notes-api/dev/1604907465275-2020-11-09T07:37:45.275Z/list.zip"
         },
         "FunctionName": "notes-api-dev-list",
         "Handler": "list.main",
@@ -282,7 +280,7 @@
         "Timeout": 6,
         "Environment": {
           "Variables": {
-            "tableName": "notes"
+            "tableName": "dev-notes-infra-dynamodb-TableCD117FA1-13UG7952A3HEC"
           }
         }
       },
@@ -290,14 +288,14 @@
         "ListLogGroup"
       ]
     },
-    "ListLambdaVersion1vHui80PoguRslT9rPV8bRxNRReH4VoPXBXjPRE": {
+    "ListLambdaVersionFq47V6StoDFdIRae6MorwWHZdFGpOcApA77idqDQ4": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "ListLambdaFunction"
         },
-        "CodeSha256": "t8jlRoBlfGoMS8MNBkJyeqY13g5DCcdZKz3cnEwrtKk="
+        "CodeSha256": "kn8pJIgmSJdorDsbCCPj9QDxks5YBO9DwI21rEoXMX0="
       }
     },
     "UpdateLambdaFunction": {
@@ -307,7 +305,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/notes-api/dev/1604641960460-2020-11-06T05:52:40.460Z/update.zip"
+          "S3Key": "serverless/notes-api/dev/1604907465275-2020-11-09T07:37:45.275Z/update.zip"
         },
         "FunctionName": "notes-api-dev-update",
         "Handler": "update.main",
@@ -322,7 +320,7 @@
         "Timeout": 6,
         "Environment": {
           "Variables": {
-            "tableName": "notes"
+            "tableName": "dev-notes-infra-dynamodb-TableCD117FA1-13UG7952A3HEC"
           }
         }
       },
@@ -330,14 +328,14 @@
         "UpdateLogGroup"
       ]
     },
-    "UpdateLambdaVersionJCT0JMnkakNm6pjrihj6sEpZdCHqxXKuNokEPSPSkQ": {
+    "UpdateLambdaVersionxEo8dDCgDVnUBJZqHbGjYhv2XIF6aumda0bzF2Nesc": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "UpdateLambdaFunction"
         },
-        "CodeSha256": "dh7d3F6dewz8Jy2jJfkIFRPrT/z6LEszWMWmyrmLwVU="
+        "CodeSha256": "wLFksQJnk6DpbI3B2BU+UraWpZJS1y+n+Ap2ipNNiEc="
       }
     },
     "DeleteLambdaFunction": {
@@ -347,7 +345,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/notes-api/dev/1604641960460-2020-11-06T05:52:40.460Z/delete.zip"
+          "S3Key": "serverless/notes-api/dev/1604907465275-2020-11-09T07:37:45.275Z/delete.zip"
         },
         "FunctionName": "notes-api-dev-delete",
         "Handler": "delete.main",
@@ -362,7 +360,7 @@
         "Timeout": 6,
         "Environment": {
           "Variables": {
-            "tableName": "notes"
+            "tableName": "dev-notes-infra-dynamodb-TableCD117FA1-13UG7952A3HEC"
           }
         }
       },
@@ -370,14 +368,14 @@
         "DeleteLogGroup"
       ]
     },
-    "DeleteLambdaVersion2HVUwqJ2u2R0Dou8PWeteJ8sIc84OGNr2ZLtWrBUsY": {
+    "DeleteLambdaVersionnqJ3gCWdVz8ztaUbZUPdgNVmex322jkrIXyD6nN9k": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "DeleteLambdaFunction"
         },
-        "CodeSha256": "u3PWI8MdScnMfwYuyu1XbGDTnxJXRw8AO+OHhHBFFqM="
+        "CodeSha256": "BqDQL1mE3mxSisIdA4tlKof4Ma8zlQhyC2QBlK7tSSU="
       }
     },
     "ApiGatewayRestApi": {
@@ -724,7 +722,7 @@
         "MethodResponses": []
       }
     },
-    "ApiGatewayDeployment1604641941587": {
+    "ApiGatewayDeployment1604907449091": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -988,31 +986,31 @@
     "CreateLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "CreateLambdaVersionJT1nuZvxnDwBjCpmSgiNGsUbcgNT8OmEiAl0FonI"
+        "Ref": "CreateLambdaVersioniqeQkvxogWW9LpsPYONwJQhBlokxbfi7AvH1wvHS7i0"
       }
     },
     "GetLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "GetLambdaVersionFz9ptlhk62RfzdeksR2VNODfob85wmOXFDO52RTNX0Q"
+        "Ref": "GetLambdaVersionyjxhUewOtzvrllmXjoL2KAqRhfZS8Jgs5ddAVQl68A"
       }
     },
     "ListLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "ListLambdaVersion1vHui80PoguRslT9rPV8bRxNRReH4VoPXBXjPRE"
+        "Ref": "ListLambdaVersionFq47V6StoDFdIRae6MorwWHZdFGpOcApA77idqDQ4"
       }
     },
     "UpdateLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "UpdateLambdaVersionJCT0JMnkakNm6pjrihj6sEpZdCHqxXKuNokEPSPSkQ"
+        "Ref": "UpdateLambdaVersionxEo8dDCgDVnUBJZqHbGjYhv2XIF6aumda0bzF2Nesc"
       }
     },
     "DeleteLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "DeleteLambdaVersion2HVUwqJ2u2R0Dou8PWeteJ8sIc84OGNr2ZLtWrBUsY"
+        "Ref": "DeleteLambdaVersionnqJ3gCWdVz8ztaUbZUPdgNVmex322jkrIXyD6nN9k"
       }
     },
     "ServiceEndpoint": {
